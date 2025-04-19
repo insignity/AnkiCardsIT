@@ -11,7 +11,7 @@ import SwiftUI
 struct AnkiCardsITApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            DecksView().modelContainer(for: [DeckModel.self])
         }
     }
 }
