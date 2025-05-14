@@ -7,20 +7,52 @@
 
 import Foundation
 import SwiftData
+import FirebaseCore
+import FirebaseFirestore
 
 @Model
-class FlashcardModel {
+final class FlashcardModel {
+    var id: UUID
     var front: String
     var back: String
-    var progress: Int
-    
-    //var belongsTo: DeckModel if it doesn't work
+    var answers: [Bool]
+    var createdAt: Date
+    var updatedAt: Date?
     
     //TODO: THINK ABOUT OUT OF PROGRESS PROPERTY
     
-    init(front: String = "", back: String = "", _ progress: Int = 0) {
+    init(front: String = "", back: String = "", _ answers: [Bool] = []) {
+        self.id = UUID()
         self.front = front
         self.back = back
-        self.progress = progress
+        self.answers = answers
+        self.createdAt = Date()
+    }
+    
+    // Convert to Firestore data
+    public func toFirestoreData() -> [String: Any] {
+        return [
+            "id": id.uuidString,
+            "front": front,
+            "back": back,
+            "answers": answers,
+            "createdAt": createdAt,
+            "updatedAt": updatedAt ?? Date()
+        ]
+    }
+    
+    // Create from Firestore data
+    public static func fromFirestoreData(_ data: [String: Any]) -> FlashcardModel {
+        let flashcard = FlashcardModel(
+            front: data["front"] as? String ?? "",
+            back: data["back"] as? String ?? "",
+            data["answers"] as? [Bool] ?? []
+        )
+        flashcard.createdAt = (data["createdAt"] as? Timestamp)?.dateValue() ?? Date()
+        flashcard.updatedAt = (data["updatedAt"] as? Timestamp)?.dateValue()
+        return flashcard
     }
 }
+
+// Progress I want to see how many attempts of current word and how many was correct,
+//

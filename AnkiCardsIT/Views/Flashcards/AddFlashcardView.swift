@@ -18,7 +18,6 @@ struct AddFlashcardView: View {
     @Query(sort: \FlashcardModel.front) private var flashcards: [FlashcardModel]
     
     @Bindable var flashcard: FlashcardModel
-    
     let isNew: Bool
     
     @Bindable var deck: DeckModel
@@ -37,12 +36,11 @@ struct AddFlashcardView: View {
                 TextField("Back", text: $flashcard.back)
                     .autocorrectionDisabled()
             }
-            .navigationTitle(isNew ? "New flashcard" : "Deck")
+            .navigationTitle(isNew ? "New flashcard" : flashcard.front)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar{
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-//                        context.insert(flashcard)
                         deck.flashcards.append(flashcard)
                         context.insert(deck)
                         dismiss()
@@ -58,5 +56,5 @@ struct AddFlashcardView: View {
 }
 
 #Preview {
-//    AddFlashcardView(flashcard: FlashcardModel(front: "", back: "", deck: SampleData.shared.deck))
+    AddFlashcardView(flashcard: FlashcardModel(front: "", back: ""), deck: DeckModel.sampleData.first!)
 }

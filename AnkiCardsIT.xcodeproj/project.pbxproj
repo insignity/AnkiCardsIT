@@ -6,6 +6,17 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C3DD91D22DD2DA25008A5CE2 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C3DD91D12DD2DA25008A5CE2 /* FirebaseAnalytics */; };
+		C3DD91D82DD409B7008A5CE2 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C3DD91D72DD409B7008A5CE2 /* FirebaseFirestore */; };
+		C3DD91DA2DD409B7008A5CE2 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C3DD91D92DD409B7008A5CE2 /* FirebaseStorage */; };
+		C3DD91DC2DD40A49008A5CE2 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = C3DD91DB2DD40A49008A5CE2 /* FirebaseCore */; };
+		C3DD91DE2DD40A49008A5CE2 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = C3DD91DD2DD40A49008A5CE2 /* FirebaseDatabase */; };
+		C3DD91E02DD40A49008A5CE2 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C3DD91DF2DD40A49008A5CE2 /* FirebaseFirestore */; };
+		C3DD91E22DD40A49008A5CE2 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C3DD91E12DD40A49008A5CE2 /* FirebaseStorage */; };
+		C3DD91E42DD40A69008A5CE2 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = C3DD91E32DD40A69008A5CE2 /* FirebaseCore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		C38747B52D8A1C7F0017D80B /* AnkiCardsIT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnkiCardsIT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +34,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3DD91DE2DD40A49008A5CE2 /* FirebaseDatabase in Frameworks */,
+				C3DD91D22DD2DA25008A5CE2 /* FirebaseAnalytics in Frameworks */,
+				C3DD91D82DD409B7008A5CE2 /* FirebaseFirestore in Frameworks */,
+				C3DD91DC2DD40A49008A5CE2 /* FirebaseCore in Frameworks */,
+				C3DD91E22DD40A49008A5CE2 /* FirebaseStorage in Frameworks */,
+				C3DD91DA2DD409B7008A5CE2 /* FirebaseStorage in Frameworks */,
+				C3DD91E42DD40A69008A5CE2 /* FirebaseCore in Frameworks */,
+				C3DD91E02DD40A49008A5CE2 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +84,14 @@
 			);
 			name = AnkiCardsIT;
 			packageProductDependencies = (
+				C3DD91D12DD2DA25008A5CE2 /* FirebaseAnalytics */,
+				C3DD91D72DD409B7008A5CE2 /* FirebaseFirestore */,
+				C3DD91D92DD409B7008A5CE2 /* FirebaseStorage */,
+				C3DD91DB2DD40A49008A5CE2 /* FirebaseCore */,
+				C3DD91DD2DD40A49008A5CE2 /* FirebaseDatabase */,
+				C3DD91DF2DD40A49008A5CE2 /* FirebaseFirestore */,
+				C3DD91E12DD40A49008A5CE2 /* FirebaseStorage */,
+				C3DD91E32DD40A69008A5CE2 /* FirebaseCore */,
 			);
 			productName = AnkiCardsIT;
 			productReference = C38747B52D8A1C7F0017D80B /* AnkiCardsIT.app */;
@@ -94,6 +121,9 @@
 			);
 			mainGroup = C38747AC2D8A1C7F0017D80B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C3DD91D02DD2D979008A5CE2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C38747B62D8A1C7F0017D80B /* Products */;
 			projectDirPath = "";
@@ -250,11 +280,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"AnkiCardsIT/Preview Content\"";
-				DEVELOPMENT_TEAM = A23KS2RTA9;
+				DEVELOPMENT_TEAM = D29L93PU47;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Tech Flashcards";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -267,9 +299,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aiarsiendiachkovskii.AnkiCardsIT;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -279,11 +315,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"AnkiCardsIT/Preview Content\"";
-				DEVELOPMENT_TEAM = A23KS2RTA9;
+				DEVELOPMENT_TEAM = D29L93PU47;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Tech Flashcards";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -296,9 +334,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aiarsiendiachkovskii.AnkiCardsIT;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -324,6 +366,53 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C3DD91D02DD2D979008A5CE2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.12.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C3DD91D12DD2DA25008A5CE2 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3DD91D02DD2D979008A5CE2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		C3DD91D72DD409B7008A5CE2 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseFirestore;
+		};
+		C3DD91D92DD409B7008A5CE2 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseStorage;
+		};
+		C3DD91DB2DD40A49008A5CE2 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseCore;
+		};
+		C3DD91DD2DD40A49008A5CE2 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseDatabase;
+		};
+		C3DD91DF2DD40A49008A5CE2 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseFirestore;
+		};
+		C3DD91E12DD40A49008A5CE2 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseStorage;
+		};
+		C3DD91E32DD40A69008A5CE2 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseCore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C38747AD2D8A1C7F0017D80B /* Project object */;
 }

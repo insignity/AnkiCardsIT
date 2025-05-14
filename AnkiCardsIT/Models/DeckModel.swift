@@ -7,17 +7,41 @@
 
 import Foundation
 import SwiftData
+import FirebaseCore
+import FirebaseFirestore
 
 @Model
-class DeckModel {
+final class DeckModel {
+    var id: UUID
     var name: String
-    var flashcards: [FlashcardModel]
+    @Relationship(deleteRule: .cascade) var flashcards: [FlashcardModel]
+    var createdAt: Date
+    var updatedAt: Date?
     
     init(name: String, _ flashcards: [FlashcardModel] = []) {
+        self.id = UUID()
         self.name = name
         self.flashcards = flashcards
+        self.createdAt = Date()
     }
     
+    // Convert to Firestore data
+    public func toFirestoreData() -> [String: Any] {
+        return [
+            "id": id.uuidString,
+            "name": name,
+            "createdAt": createdAt,
+            "updatedAt": updatedAt ?? Date()
+        ]
+    }
+    
+    // Create from Firestore data
+    public static func fromFirestoreData(_ data: [String: Any]) -> DeckModel {
+        let deck = DeckModel(name: data["name"] as? String ?? "")
+        deck.createdAt = (data["createdAt"] as? Timestamp)?.dateValue() ?? Date()
+        deck.updatedAt = (data["updatedAt"] as? Timestamp)?.dateValue()
+        return deck
+    }
     
     static let sampleData = [
         DeckModel(name: "My deck", [
