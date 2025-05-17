@@ -1,79 +1,63 @@
 import Foundation
-import FirebaseFirestore
 import FirebaseCore
+import FirebaseDatabase
 import SwiftData
 
 class FirebaseService {
     static let shared = FirebaseService()
-    private let db = Firestore.firestore()
+    private let db = Database.database().reference()
     
     // MARK: - Deck Operations
-    
     func createDeck(_ deck: DeckModel) async throws {
         let deckData = deck.toFirestoreData()
-        let deckRef = try await db.collection("decks").addDocument(data: deckData)
+        let deckRef = db.child("decks").child(deck.id)
+        try await deckRef.setValue(deckData)
         
         // Save flashcards
         for flashcard in deck.flashcards {
             var flashcardData = flashcard.toFirestoreData()
-            flashcardData["deckId"] = deckRef.documentID
-            try await deckRef.collection("flashcards").addDocument(data: flashcardData)
+            flashcardData["deckId"] = deck.id
+            try await deckRef.child("flashcards").child(flashcard.id.uuidString).setValue(flashcardData)
         }
     }
     
     func fetchDecks() async throws -> [DeckModel] {
-        let snapshot = try await db.collection("decks").getDocuments()
+        let snapshot = try await db.child("decks").getData()
         var decks: [DeckModel] = []
         
-        for document in snapshot.documents {
-            let deckData = document.data()
+        guard let decksDict = snapshot.value as? [String: [String: Any]] else {
+            return []
+        }
+        
+        for (_, deckData) in decksDict {
             let deck = DeckModel.fromFirestoreData(deckData)
             
             // Fetch flashcards for this deck
-            let flashcardsSnapshot = try await document.reference.collection("flashcards").getDocuments()
-            var flashcards: [FlashcardModel] = []
-            
-            for flashcardDoc in flashcardsSnapshot.documents {
-                let flashcardData = flashcardDoc.data()
-                let flashcard = FlashcardModel.fromFirestoreData(flashcardData)
-                flashcards.append(flashcard)
+            if let flashcardsDict = deckData["flashcards"] as? [String: [String: Any]] {
+                var flashcards: [FlashcardModel] = []
+                
+                for (_, flashcardData) in flashcardsDict {
+                    let flashcard = FlashcardModel.fromFirestoreData(flashcardData)
+                    flashcards.append(flashcard)
+                }
+                
+                deck.flashcards = flashcards
             }
             
-            deck.flashcards = flashcards
             decks.append(deck)
         }
         
         return decks
     }
     
-    func updateDeck(_ deck: DeckModel) async throws {
-        let deckId = deck.id.uuidString
-        let deckData = deck.toFirestoreData()
-        try await db.collection("decks").document(deckId).updateData(deckData)
-        
-        // Update flashcards
-        for flashcard in deck.flashcards {
-            let flashcardId = flashcard.id.uuidString
-            let flashcardData = flashcard.toFirestoreData()
-            try await db.collection("decks").document(deckId)
-                .collection("flashcards").document(flashcardId)
-                .updateData(flashcardData)
-        }
-    }
-    
     func deleteDeck(_ deck: DeckModel) async throws {
-        let deckId = deck.id.uuidString
-        
-        // Delete all flashcards in the deck
-        let flashcardsSnapshot = try await db.collection("decks").document(deckId)
-            .collection("flashcards").getDocuments()
-        
-        for document in flashcardsSnapshot.documents {
-            try await document.reference.delete()
+        let deckId = deck.id
+        do {
+            print(deckId);
+            try await db.child("decks").child(deckId).removeValue()
+        } catch {
+            print("Error: \(error)")
         }
-        
-        // Delete the deck
-        try await db.collection("decks").document(deckId).delete()
     }
     
     // MARK: - Flashcard Operations
@@ -82,24 +66,21 @@ class FirebaseService {
         var flashcardData = flashcard.toFirestoreData()
         flashcardData["deckId"] = deckId
         
-        try await db.collection("decks").document(deckId)
-            .collection("flashcards").addDocument(data: flashcardData)
-    }
-    
-    func updateFlashcard(_ flashcard: FlashcardModel, inDeck deckId: String) async throws {
-        let flashcardId = flashcard.id.uuidString
-        let flashcardData = flashcard.toFirestoreData()
-        
-        try await db.collection("decks").document(deckId)
-            .collection("flashcards").document(flashcardId)
-            .updateData(flashcardData)
+        try await db.child("decks").child(deckId)
+            .child("flashcards").child(flashcard.id.uuidString)
+            .setValue(flashcardData)
     }
     
     func deleteFlashcard(_ flashcard: FlashcardModel, fromDeck deckId: String) async throws {
         let flashcardId = flashcard.id.uuidString
-        
-        try await db.collection("decks").document(deckId)
-            .collection("flashcards").document(flashcardId)
-            .delete()
+        print(flashcardId)
+        do {
+            try await db.child("decks").child(deckId)
+                .child("flashcards").child(flashcardId)
+                .removeValue()
+               print("Deck successfully deleted!")
+           } catch {
+               print("Error deleting deck: \(error)") // Check if you see any errors here!
+           }
     }
-} 
+}

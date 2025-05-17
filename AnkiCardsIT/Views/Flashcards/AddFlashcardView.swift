@@ -21,6 +21,8 @@ struct AddFlashcardView: View {
     let isNew: Bool
     
     @Bindable var deck: DeckModel
+    @State private var isLoading = false
+    @State private var error: Error?
     
     init(flashcard: FlashcardModel, isNew: Bool = false, deck: DeckModel) {
         self.flashcard = flashcard
@@ -41,9 +43,9 @@ struct AddFlashcardView: View {
             .toolbar{
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        deck.flashcards.append(flashcard)
-                        context.insert(deck)
-                        dismiss()
+                        Task {
+                            await saveFlashcard()
+                        }
                     }
                 }
                 ToolbarItem(placement: .cancellationAction) {
@@ -53,8 +55,29 @@ struct AddFlashcardView: View {
                 }
             }
     }
+    
+    
+    private func saveFlashcard() async {
+        isLoading = true
+        error = nil
+        
+        do {
+            // Save to SwiftData
+            deck.flashcards.append(flashcard)
+            context.insert(deck)
+            
+            // Save to Firebase
+            try await FirebaseService.shared.addFlashcard(flashcard, toDeck: deck.id)
+            
+            dismiss()
+        } catch {
+            self.error = error
+        }
+        
+        isLoading = false
+    }
 }
 
 #Preview {
-    AddFlashcardView(flashcard: FlashcardModel(front: "", back: ""), deck: DeckModel.sampleData.first!)
+    AddFlashcardView(flashcard: FlashcardModel(front: "front", back: "back"), deck: DeckModel.sampleData.first!)
 }

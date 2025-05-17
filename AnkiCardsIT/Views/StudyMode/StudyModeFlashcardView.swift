@@ -47,6 +47,7 @@ struct StudyModeFlashcardView: View {
                             .foregroundColor(.white)
                             .minimumScaleFactor(Constants.minScaleFactor)
                             .lineLimit(5)
+                            .minimumScaleFactor(0.5)
                             .padding()
                     )
                     .opacity(isFlipped ? 0.0 : 1.0)
@@ -62,7 +63,8 @@ struct StudyModeFlashcardView: View {
                             .font(.title)
                             .foregroundColor(.white)
                             .minimumScaleFactor(Constants.minScaleFactor)
-                            .lineLimit(5)
+                            .lineLimit(5) // or nil for unlimited lines
+                            .minimumScaleFactor(0.5)
                             .padding()
                     )
                     .opacity(isFlipped ? 1.0 : 0.0)

@@ -8,70 +8,86 @@ struct DecksView: View {
     @State private var newDeckName = ""
     
     var body: some View {
-        List {
-            ForEach(viewModel.decks) { deck in
-                NavigationLink(value: Screen.flashcards(deck: deck)) {
-                    VStack(alignment: .leading) {
-                        Text(deck.name)
-                            .font(.headline)
-                        Text("\(deck.flashcards.count) cards")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                    }
-                }
-                .swipeActions {
-                    Button(role: .destructive) {
-                        Task {
-                            await viewModel.deleteDeck(deck)
+        VStack {
+            Text("Decks")
+                .font(.title)
+                .foregroundColor(Color.white)
+            List {
+                ForEach(viewModel.decks) { deck in
+                    NavigationLink(value: Screen.flashcards(deck: deck)) {
+                        VStack(alignment: .leading) {
+                            Text(deck.name)
+                                .font(.headline)
+                            Text("\(deck.flashcards.count) cards")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
                         }
-                    } label: {
-                        Label("Delete", systemImage: "trash")
+                    }
+                    .swipeActions {
+                        Button(role: .destructive) {
+                            Task {
+                                await viewModel.deleteDeck(deck)
+                            }
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                        }
                     }
                 }
             }
-        }
-        .navigationTitle("Decks")
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    showingAddDeck = true
-                } label: {
-                    Image(systemName: "plus")
+            .listRowBackground(Color.clear)
+            .background(Color.clear)
+            .scrollContentBackground(.hidden)
+            .navigationTitle("Decks")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        showingAddDeck = true
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
+            .alert("New Deck", isPresented: $showingAddDeck) {
+                TextField("Deck Name", text: $newDeckName)
+                Button("Cancel", role: .cancel) {
+                    newDeckName = ""
+                }
+                Button("Create") {
+                    let newDeck = DeckModel(name: newDeckName)
+                    Task {
+                        await viewModel.saveDeck(newDeck)
+                    }
+                    newDeckName = ""
+                }
+            }
+            .task {
+                await viewModel.fetchDecks()
+            }
+            .refreshable {
+                await viewModel.fetchDecks()
+            }
+            .overlay {
+                if viewModel.isLoading {
+                    ProgressView()
+                }
+            }
+            .alert("Error", isPresented: .constant(viewModel.error != nil)) {
+                Button("OK") {
+                    viewModel.error = nil
+                }
+            } message: {
+                if let error = viewModel.error {
+                    Text(error.localizedDescription)
                 }
             }
         }
-        .alert("New Deck", isPresented: $showingAddDeck) {
-            TextField("Deck Name", text: $newDeckName)
-            Button("Cancel", role: .cancel) {
-                newDeckName = ""
-            }
-            Button("Create") {
-                let newDeck = DeckModel(name: newDeckName)
-                Task {
-                    await viewModel.saveDeck(newDeck)
-                }
-                newDeckName = ""
-            }
-        }
-        .task {
-            await viewModel.fetchDecks()
-        }
-        .refreshable {
-            await viewModel.fetchDecks()
-        }
-        .overlay {
-            if viewModel.isLoading {
-                ProgressView()
-            }
-        }
-        .alert("Error", isPresented: .constant(viewModel.error != nil)) {
-            Button("OK") {
-                viewModel.error = nil
-            }
-        } message: {
-            if let error = viewModel.error {
-                Text(error.localizedDescription)
-            }
-        }
+        .toolbar(.hidden, for: .navigationBar)
+        .gradientBackground()
     }
-} 
+}
+
+#Preview {
+    NavigationStack {
+        DecksView(path: .constant(NavigationPath())).navigationTitle("sdf")
+    }
+}

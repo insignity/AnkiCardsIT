@@ -16,8 +16,6 @@ final class FlashcardModel {
     var front: String
     var back: String
     var answers: [Bool]
-    var createdAt: Date
-    var updatedAt: Date?
     
     //TODO: THINK ABOUT OUT OF PROGRESS PROPERTY
     
@@ -26,7 +24,6 @@ final class FlashcardModel {
         self.front = front
         self.back = back
         self.answers = answers
-        self.createdAt = Date()
     }
     
     // Convert to Firestore data
@@ -35,9 +32,7 @@ final class FlashcardModel {
             "id": id.uuidString,
             "front": front,
             "back": back,
-            "answers": answers,
-            "createdAt": createdAt,
-            "updatedAt": updatedAt ?? Date()
+            "answers": answers
         ]
     }
     
@@ -48,8 +43,6 @@ final class FlashcardModel {
             back: data["back"] as? String ?? "",
             data["answers"] as? [Bool] ?? []
         )
-        flashcard.createdAt = (data["createdAt"] as? Timestamp)?.dateValue() ?? Date()
-        flashcard.updatedAt = (data["updatedAt"] as? Timestamp)?.dateValue()
         return flashcard
     }
 }

@@ -42,13 +42,7 @@ struct AnkiCardsITApp: App {
                     }
             }
             .modelContainer(for: [DeckModel.self, FlashcardModel.self]) { result in
-                switch result {
-                case .success(let container):
-                    // Create initial deck when app launches
-                    InitialDeckService.createInitialDeck(modelContext: container.mainContext)
-                case .failure(let error):
-                    print("Error setting up model container: \(error)")
-                }
+                
             }
         }
     }

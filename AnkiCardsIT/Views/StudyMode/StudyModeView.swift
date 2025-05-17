@@ -57,6 +57,7 @@ struct StudyModeView: View {
             })
         }
         .navigationTitle("Study mode")
+        .gradientBackground()
     }
 }
 

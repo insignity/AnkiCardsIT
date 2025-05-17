@@ -12,34 +12,30 @@ import FirebaseFirestore
 
 @Model
 final class DeckModel {
-    var id: UUID
+    var id: String
     var name: String
     @Relationship(deleteRule: .cascade) var flashcards: [FlashcardModel]
-    var createdAt: Date
-    var updatedAt: Date?
     
-    init(name: String, _ flashcards: [FlashcardModel] = []) {
-        self.id = UUID()
+    init(name: String, _ flashcards: [FlashcardModel] = [], id: String = "") {
+        self.id = id.isEmpty ?  UUID().uuidString : id
         self.name = name
         self.flashcards = flashcards
-        self.createdAt = Date()
     }
     
     // Convert to Firestore data
     public func toFirestoreData() -> [String: Any] {
         return [
-            "id": id.uuidString,
+            "id": id,
             "name": name,
-            "createdAt": createdAt,
-            "updatedAt": updatedAt ?? Date()
         ]
     }
     
     // Create from Firestore data
     public static func fromFirestoreData(_ data: [String: Any]) -> DeckModel {
-        let deck = DeckModel(name: data["name"] as? String ?? "")
-        deck.createdAt = (data["createdAt"] as? Timestamp)?.dateValue() ?? Date()
-        deck.updatedAt = (data["updatedAt"] as? Timestamp)?.dateValue()
+        let deck = DeckModel(
+            name: data["name"] as? String ?? "",
+            id: data["id"] as? String ?? UUID().uuidString
+        )
         return deck
     }
     

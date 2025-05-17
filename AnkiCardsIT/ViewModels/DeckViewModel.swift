@@ -45,8 +45,11 @@ class DeckViewModel: ObservableObject {
         error = nil
         
         do {
+            print("a")
             try await firebaseService.deleteDeck(deck)
+            print("b")
             await fetchDecks()
+            print("c")
         } catch {
             self.error = error
             print("Error deleting deck: \(error)")

@@ -37,20 +37,6 @@ class DecksViewModel: ObservableObject {
         isLoading = false
     }
     
-    func updateDeck(_ deck: DeckModel) async {
-        isLoading = true
-        error = nil
-        
-        do {
-            try await firebaseService.updateDeck(deck)
-            await loadDecks() // Reload decks after update
-        } catch {
-            self.error = error
-        }
-        
-        isLoading = false
-    }
-    
     func deleteDeck(_ deck: DeckModel) async {
         isLoading = true
         error = nil
@@ -70,7 +56,7 @@ class DecksViewModel: ObservableObject {
         error = nil
         
         do {
-            try await firebaseService.addFlashcard(flashcard, toDeck: deck.id.uuidString)
+            try await firebaseService.addFlashcard(flashcard, toDeck: deck.id)
             await loadDecks() // Reload decks after adding flashcard
         } catch {
             self.error = error
@@ -79,26 +65,13 @@ class DecksViewModel: ObservableObject {
         isLoading = false
     }
     
-    func updateFlashcard(_ flashcard: FlashcardModel, inDeck deck: DeckModel) async {
-        isLoading = true
-        error = nil
-        
-        do {
-            try await firebaseService.updateFlashcard(flashcard, inDeck: deck.id.uuidString)
-            await loadDecks() // Reload decks after updating flashcard
-        } catch {
-            self.error = error
-        }
-        
-        isLoading = false
-    }
     
     func deleteFlashcard(_ flashcard: FlashcardModel, fromDeck deck: DeckModel) async {
         isLoading = true
         error = nil
         
         do {
-            try await firebaseService.deleteFlashcard(flashcard, fromDeck: deck.id.uuidString)
+            try await firebaseService.deleteFlashcard(flashcard, fromDeck: deck.id)
             await loadDecks() // Reload decks after deleting flashcard
         } catch {
             self.error = error

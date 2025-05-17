@@ -21,9 +21,22 @@
 		C38747B52D8A1C7F0017D80B /* AnkiCardsIT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnkiCardsIT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		C3DD92552DD59860008A5CE2 /* Exceptions for "AnkiCardsIT" folder in "AnkiCardsIT" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C38747B42D8A1C7F0017D80B /* AnkiCardsIT */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C38747B72D8A1C7F0017D80B /* AnkiCardsIT */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C3DD92552DD59860008A5CE2 /* Exceptions for "AnkiCardsIT" folder in "AnkiCardsIT" target */,
+			);
 			path = AnkiCardsIT;
 			sourceTree = "<group>";
 		};
@@ -285,6 +298,7 @@
 				DEVELOPMENT_TEAM = D29L93PU47;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AnkiCardsIT/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Tech Flashcards";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -320,6 +334,7 @@
 				DEVELOPMENT_TEAM = D29L93PU47;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AnkiCardsIT/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Tech Flashcards";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
